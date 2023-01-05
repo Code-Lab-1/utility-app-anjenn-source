@@ -11,6 +11,7 @@ item = ''
 
 
 # Order verification function verifies if the customer's entry if it is acceptable and continuous to loop till valid.
+# Menu items with 0 stock amount will not be shown.
 def order_verification(x):
     category_choices = menu_items[x]
     menu_key_list = list(category_choices)
@@ -34,6 +35,13 @@ def order_verification(x):
             payment_add = int(input(f'\nKindly insert {item_cost - payment}aed to complete your payment: '))
             payment += payment_add
         print(f'Change of {payment - item_cost}aed have been dispensed.')
+
+        # Stock management - Stock is reduced by one order after complete payment and the database is updated.
+        current_stock_qty = menu_items[x][query.upper()]['Stock']
+        current_stock_qty -= 1
+        menu_items[x][f'{query.upper()}']['Stock'] = current_stock_qty
+        with open("database.json", "w") as outfile:
+            json.dump(menu_items, outfile)
 
         # Dispensing the order after successful item verification and payment.
         print(f'\nDispensing your {category_choices[query.upper()]["Name"]}...')
