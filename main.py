@@ -69,7 +69,15 @@ def order_entry():
 
     elif order_type == '4':
         return order_verification('Salty Snacks')
-        
+
+    # Command to access stock levels
+    elif order_type.upper() == 'STOCK':
+        for category in menu_items:
+            for code in menu_items[category]:
+                stock_item_name = menu_items[category][code]['Name']
+                stock_item_amount = menu_items[category][code]['Stock']
+                print(f'{stock_item_name}: {stock_item_amount}')
+
     else:
         print('Invalid entry!')
         order_entry()
